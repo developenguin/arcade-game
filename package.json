@@ -1,0 +1,9 @@
+{
+  "name": "arcade-game",
+  "version": "0.0.1",
+  "description": "arcade game for frontend dev nanodegree",
+  "main": "index.js",
+  "repository": "git@github.com:developenguin/arcade-game.git",
+  "author": "matthijs <matthijs@heavymetalpenguin.com>",
+  "license": "MIT"
+}
