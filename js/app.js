@@ -1,7 +1,8 @@
 const CONSTANTS = {
   dx: 101, // block width
   dy: 83, // block height
-  offset: 24, // distance from canvas top to the first row
+  offset: 24, // distance from canvas top to the first row,
+  playerCollisionOffset: 24, // horizontal distance from edge of player sprite to first colored pixel
 
   canvasWidth: 505,
   canvasHeight: 606
@@ -33,6 +34,11 @@ class Enemy {
    */
   update(dt) {
     this.updateHorizontalPosition(dt);
+    
+    if (this.isCollisionWithPlayer()) {
+      scoreBoard.decreaseScore();
+      player.resetPosition();
+    }
   }
 
   /*
@@ -73,22 +79,50 @@ class Enemy {
   isObjectOutOfRightBound() {
     return this.x > CONSTANTS.canvasWidth;
   }
+
+  /*
+   * Checks if the player and the enemy sprite currently overlap at some point
+   */
+  isCollisionWithPlayer() {
+
+    const ownBox = {
+            x1: this.x,
+            x2: this.x + CONSTANTS.dx,
+            y1: this.y,
+            y2: this.y + CONSTANTS.dy
+          },
+          playerBox = player.getCollisionBox();
+
+    /*
+     * To check for collisions, we do the following:
+     * - A collision can only happen on the same row, so the y1 coordinates must be the same
+     * - If they are, we need to check if the x1 position of the player is between the x1 and x2
+     *    coordinates of the enemy OR the x2 position is (left and right collision)
+     */
+
+    if (playerBox.y1 !== ownBox.y1 ) {
+      return false;
+    }
+
+    return ((playerBox.x1 + CONSTANTS.playerCollisionOffset > ownBox.x1 && playerBox.x1 + CONSTANTS.playerCollisionOffset < ownBox.x2)
+      || (playerBox.x2 - CONSTANTS.playerCollisionOffset > ownBox.x1 && playerBox.x2 - CONSTANTS.playerCollisionOffset < ownBox.x2));
+  }
 }
 
 class ScoreBoard {
-  
+
   constructor() {
     this.score = 0;
   }
-  
+
   increaseScore() {
     this.score++;
   }
-  
+
   decreaseScore() {
     this.score--;
   }
-  
+
   render() {
     ctx.fillText(`Score: ${this.score}`, 32, 32);
   }
@@ -219,6 +253,20 @@ class Player {
    */
   isOnFirstRow() {
     return this.y < 0;
+  }
+
+  /*
+   * Returns the collision box of the player
+   */
+  getCollisionBox() {
+
+    return {
+      x1: this.x,
+      x2: this.x + CONSTANTS.dx,
+      y1: this.y,
+      y2: this.y + CONSTANTS.dy
+    };
+
   }
 }
 
