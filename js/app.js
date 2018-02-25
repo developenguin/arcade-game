@@ -5,6 +5,7 @@ class Enemy {
    *
    * Param: row, the row you want the Enemy to appear on
    * Param: col, the column you want the Enemy to appear on
+   * Param: speed, the number of blocks you want the enemy to move per second
    *
    * Row and Col values are automatically converted to X and Y. Counting starts at 1 (NOT zero)
    *
@@ -20,12 +21,37 @@ class Enemy {
    * Param: dt, a delta between ticks ensuring equal speed on each computer.
    */
   update(dt) {
-    console.log(dt);
+    this.updateHorizontalPosition(dt);
+  }
+
+  updateHorizontalPosition(dt) {
+
+    this.x = this.isObjectOutOfRightBound()
+      ? -101
+      : this.x + this.calculateSpeedPerTick(dt);
+
+  }
+
+  /*
+   * Calculates speed in px per tick based on the speed property and the dt
+   * Param: dt, the amount of seconds between ticks
+   */
+  calculateSpeedPerTick(dt) {
+
+    const ticksPerSecond = 1 / dt,
+          blockWidth = 101;
+
+    return blockWidth * this.speed / ticksPerSecond;
+
   }
 
   /* Draw the enemy on the screen */
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  }
+
+  isObjectOutOfRightBound() {
+    return this.x > document.getElementsByTagName('canvas')[0].width;
   }
 }
 
