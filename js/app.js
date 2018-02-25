@@ -18,12 +18,16 @@ class Enemy {
   }
 
   /* Update the position of the object on the screen, required for game
-   * Param: dt, a delta between ticks ensuring equal speed on each computer.
+   * Param: dt, the amount of seconds between ticks
    */
   update(dt) {
     this.updateHorizontalPosition(dt);
   }
 
+  /*
+   * Calculate the change in horizontal position for the enemy and make it wrap around
+   * Param: dt, the amount of seconds between ticks
+   */
   updateHorizontalPosition(dt) {
 
     this.x = this.isObjectOutOfRightBound()
@@ -57,10 +61,10 @@ class Enemy {
 
 class Player {
 
-  constructor(x, y) {
+  constructor(row, col) {
     this.sprite = 'images/char-boy.png';
-    this.x = x;
-    this.y = y;
+    this.x = (col - 1) * 101; // 101 is the row width
+    this.y = (row - 1) * 83 - 24; // 83 is row height, 24 is one-time offset from canvas top
   }
 
   /* Update the position of the player */
@@ -94,6 +98,10 @@ class Player {
 
   }
 
+  /*
+   * Move the player left or right
+   * Param: direction, a string with value 'left' or 'right'
+   */
   handleHorizontalInput(direction) {
 
     if (direction === 'left') {
@@ -104,6 +112,10 @@ class Player {
 
   }
 
+  /*
+   * Move the player up or down
+   * Param: direction, a string with value 'up' or 'down'
+   */
   handleVerticalInput(direction) {
 
     if (direction === 'up') {
@@ -115,12 +127,8 @@ class Player {
   }
 }
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-
 /* Instantiate objects to use in the game */
-const player = new Player(),
+const player = new Player(6, 3),
       allEnemies = [
         new Enemy(2, 1, 3),
         new Enemy(3, 3, 2),
