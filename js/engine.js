@@ -157,7 +157,7 @@ const Engine = (function(global) {
     });
 
     player.render();
-    scoreBoard.render();
+    gameState.render();
     
   }
 

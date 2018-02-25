@@ -36,7 +36,8 @@ class Enemy {
     this.updateHorizontalPosition(dt);
 
     if (this.isCollisionWithPlayer()) {
-      scoreBoard.decreaseScore();
+      gameState.decreaseScore();
+      gameState.changeAllEnemySpeed(gameState.score / 20);
       player.resetPosition();
     }
   }
@@ -64,6 +65,14 @@ class Enemy {
 
     return blockWidth * this.speed / ticksPerSecond;
 
+  }
+  
+  /*
+   * Increase the speed
+   * Param: modifier, the amount with which to increase the speed
+   */
+  increaseSpeed(modifier) {
+    this.speed = this.speed + modifier;
   }
 
   /*
@@ -104,13 +113,21 @@ class Enemy {
       return false;
     }
 
-    return ((playerBox.x1 + CONSTANTS.playerCollisionOffset > ownBox.x1 && playerBox.x1 + CONSTANTS.playerCollisionOffset < ownBox.x2)
-      || (playerBox.x2 - CONSTANTS.playerCollisionOffset > ownBox.x1 && playerBox.x2 - CONSTANTS.playerCollisionOffset < ownBox.x2));
+    return (
+      (playerBox.x1 + CONSTANTS.playerCollisionOffset > ownBox.x1
+        && playerBox.x1 + CONSTANTS.playerCollisionOffset < ownBox.x2)
+      || (playerBox.x2 - CONSTANTS.playerCollisionOffset > ownBox.x1
+        && playerBox.x2 - CONSTANTS.playerCollisionOffset < ownBox.x2)
+    );
+
   }
 }
 
-class ScoreBoard {
+class GameState {
 
+  /*
+   * Initialize the game state
+   */
   constructor() {
     this.score = 0;
   }
@@ -123,9 +140,26 @@ class ScoreBoard {
     this.score--;
   }
 
+  /*
+   * Draw the scoreboard
+   */
   render() {
     ctx.fillText(`Score: ${this.score}`, 32, 32);
   }
+
+  /*
+   * Changes the speed of all enemies
+   * Param: modifier, the amount with which to modify the speed. Can be negative
+   */
+  changeAllEnemySpeed(modifier) {
+
+    for (let enemy of allEnemies) {
+      enemy.increaseSpeed(modifier);
+    }
+    
+  }
+  
+  
 }
 
 class Player {
@@ -151,7 +185,8 @@ class Player {
   update() {
 
     if (this.isOnFirstRow()) {
-      scoreBoard.increaseScore();
+      gameState.increaseScore();
+      gameState.changeAllEnemySpeed(gameState.score / 20);
       this.resetPosition();
     }
 
@@ -272,7 +307,7 @@ class Player {
 
 /* Instantiate objects to use in the game */
 const player = new Player(6, 3),
-      scoreBoard = new ScoreBoard(),
+      gameState = new GameState(),
       allEnemies = [
         new Enemy(2, 4, 2.7),
         new Enemy(2, 1, 3.5),
