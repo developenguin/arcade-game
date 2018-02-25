@@ -168,9 +168,9 @@ class Player {
       case 'right':
         return this.x + CONSTANTS.dx >= CONSTANTS.canvasWidth;
       case 'up':
-        return this.y - CONSTANTS.dy < 0;
+        return this.y - CONSTANTS.dy < -CONSTANTS.offset;
       case 'down':
-        return this.y + CONSTANTS.dy >= CONSTANTS.canvasHeight;
+        return this.y + CONSTANTS.dy  + CONSTANTS.offset >= 6 * CONSTANTS.dy; // we can't go below the rows
       default:
         return false;
     }
