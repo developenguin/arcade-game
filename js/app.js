@@ -9,17 +9,18 @@ class Enemy {
    * Row and Col values are automatically converted to X and Y. Counting starts at 1 (NOT zero)
    *
    */
-  constructor(row, col) {
+  constructor(row, col, speed) {
     this.sprite = 'images/enemy-bug.png';
     this.x = (col - 1) * 101; // 101 is the row width
     this.y = (row - 1) * 83 - 24; // 83 is row height, 24 is one-time offset from canvas top
+    this.speed = speed; // Movement in pixels per tick
   }
 
   /* Update the position of the object on the screen, required for game
    * Param: dt, a delta between ticks ensuring equal speed on each computer.
    */
   update(dt) {
-
+    console.log(dt);
   }
 
   /* Draw the enemy on the screen */
@@ -95,10 +96,10 @@ class Player {
 /* Instantiate objects to use in the game */
 const player = new Player(),
       allEnemies = [
-        new Enemy(2, 1),
-        new Enemy(3, 3),
-        new Enemy(4, 4),
-        new Enemy(4, 5)
+        new Enemy(2, 1, 3),
+        new Enemy(3, 3, 2),
+        new Enemy(4, 4, 1),
+        new Enemy(4, 5, 1)
       ];
 
 // This listens for key presses and sends the keys to your
