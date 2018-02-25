@@ -3,8 +3,8 @@ const CONSTANTS = {
   dy: 83, // block height
   offset: 24, // distance from canvas top to the first row
 
-  canvasWidth: document.getElementsByTagName('canvas')[0].width,
-  canvasHeight: document.getElementsByTagName('canvas')[0].height
+  canvasWidth: 505,
+  canvasHeight: 606
 };
 
 /* Enemies the player must avoid */
@@ -166,11 +166,11 @@ class Player {
       case 'left':
         return this.x - CONSTANTS.dx < 0;
       case 'right':
-        return this.x + CONSTANTS.dx > CONSTANTS.canvasWidth;
+        return this.x + CONSTANTS.dx >= CONSTANTS.canvasWidth;
       case 'up':
         return this.y - CONSTANTS.dy < 0;
       case 'down':
-        return this.y + CONSTANTS.dy > CONSTANTS.canvasHeight;
+        return this.y + CONSTANTS.dy >= CONSTANTS.canvasHeight;
       default:
         return false;
     }
