@@ -1,7 +1,10 @@
 const CONSTANTS = {
   dx: 101, // block width
-  dy: 83,  // block height
-  offset: 24  // distance from canvas top to the first row
+  dy: 83, // block height
+  offset: 24, // distance from canvas top to the first row
+
+  canvasWidth: document.getElementsByTagName('canvas')[0].width,
+  canvasHeight: document.getElementsByTagName('canvas')[0].height
 };
 
 /* Enemies the player must avoid */
@@ -18,11 +21,11 @@ class Enemy {
    */
   constructor(row, col, speed) {
     this.sprite = 'images/enemy-bug.png';
-    
+
     this.x = (col - 1) * CONSTANTS.dx;
     this.y = (row - 1) * CONSTANTS.dy - CONSTANTS.offset;
     this.speed = speed; // Movement in pixels per tick
-    
+
   }
 
   /* Update the position of the object on the screen, required for game
@@ -57,18 +60,29 @@ class Enemy {
 
   }
 
-  /* Draw the enemy on the screen */
+  /*
+   * Draw the enemy on the screen
+   * */
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
-  
+
+  /*
+   * Check if the enemy has passed the right side of the canvas
+   */
   isObjectOutOfRightBound() {
-    return this.x > document.getElementsByTagName('canvas')[0].width;
+    return this.x > CONSTANTS.canvasWidth;
   }
 }
 
 class Player {
 
+  /*
+   * Param: row, the row you want the Player to appear on
+   * Param: col, the column you want the Player to appear on
+   *
+   * Row and Col values are automatically converted to X and Y. Counting starts at 1 (NOT zero)
+   */
   constructor(row, col) {
     this.sprite = 'images/char-boy.png';
     this.x = (col - 1) * CONSTANTS.dx;
@@ -85,7 +99,15 @@ class Player {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
 
+  /*
+   * Handle key input
+   * Param: direction, a string 'left', 'right', 'up' or 'down'
+   */
   handleInput(direction) {
+
+    if (this.isNextMoveOutOfBounds(direction)) {
+      return;
+    }
 
     switch (direction) {
 
@@ -130,6 +152,27 @@ class Player {
       this.y = this.y - 83;
     } else {
       this.y = this.y + 83;
+    }
+
+  }
+
+  /*
+   * Check if the next move will cause the player to move off the playing field
+   * Param: direction, the direction the next move will be in
+   */
+  isNextMoveOutOfBounds(direction) {
+
+    switch (direction) {
+      case 'left':
+        return this.x - CONSTANTS.dx < 0;
+      case 'right':
+        return this.x + CONSTANTS.dx > CONSTANTS.canvasWidth;
+      case 'up':
+        return this.y - CONSTANTS.dy < 0;
+      case 'down':
+        return this.y + CONSTANTS.dy > CONSTANTS.canvasHeight;
+      default:
+        return false;
     }
 
   }
