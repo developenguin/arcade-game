@@ -26,6 +26,9 @@ const Engine = (function(global) {
 
   canvas.width = 505;
   canvas.height = 606;
+  
+  ctx.font = "24px Arial";
+  
   doc.body.appendChild(canvas);
 
   /* This function serves as the kickoff point for the game loop itself
@@ -154,6 +157,8 @@ const Engine = (function(global) {
     });
 
     player.render();
+    scoreBoard.render();
+    
   }
 
   /* This function does nothing but it could have been a good place to

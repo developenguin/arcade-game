@@ -75,6 +75,25 @@ class Enemy {
   }
 }
 
+class ScoreBoard {
+  
+  constructor() {
+    this.score = 0;
+  }
+  
+  increaseScore() {
+    this.score++;
+  }
+  
+  decreaseScore() {
+    this.score--;
+  }
+  
+  render() {
+    ctx.fillText(`Score: ${this.score}`, 32, 32);
+  }
+}
+
 class Player {
 
   /*
@@ -98,6 +117,7 @@ class Player {
   update() {
 
     if (this.isOnFirstRow()) {
+      scoreBoard.increaseScore();
       this.resetPosition();
     }
 
@@ -204,6 +224,7 @@ class Player {
 
 /* Instantiate objects to use in the game */
 const player = new Player(6, 3),
+      scoreBoard = new ScoreBoard(),
       allEnemies = [
         new Enemy(2, 4, 2.7),
         new Enemy(2, 1, 3.5),
