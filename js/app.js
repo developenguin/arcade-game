@@ -87,10 +87,19 @@ class Player {
     this.sprite = 'images/char-boy.png';
     this.x = (col - 1) * CONSTANTS.dx;
     this.y = (row - 1) * CONSTANTS.dy - CONSTANTS.offset;
+
+    this.initialX = (col - 1) * CONSTANTS.dx;
+    this.initialY = (row - 1) * CONSTANTS.dy - CONSTANTS.offset;
   }
 
-  /* Update the position of the player */
+  /*
+   * Check for collision or win conditions and act accordingly
+   */
   update() {
+
+    if (this.isOnFirstRow()) {
+      this.resetPosition();
+    }
 
   }
 
@@ -157,6 +166,14 @@ class Player {
   }
 
   /*
+   *
+   */
+  resetPosition() {
+    this.x = this.initialX;
+    this.y = this.initialY;
+  }
+
+  /*
    * Check if the next move will cause the player to move off the playing field
    * Param: direction, the direction the next move will be in
    */
@@ -170,11 +187,18 @@ class Player {
       case 'up':
         return this.y - CONSTANTS.dy < -CONSTANTS.offset;
       case 'down':
-        return this.y + CONSTANTS.dy  + CONSTANTS.offset >= 6 * CONSTANTS.dy; // we can't go below the rows
+        return this.y + CONSTANTS.dy + CONSTANTS.offset >= 6 * CONSTANTS.dy; // we can't go below the rows
       default:
         return false;
     }
 
+  }
+
+  /*
+   * Checks if the player is on the topmost row and therefore safe
+   */
+  isOnFirstRow() {
+    return this.y < 0;
   }
 }
 
