@@ -181,10 +181,12 @@ class Player {
 /* Instantiate objects to use in the game */
 const player = new Player(6, 3),
       allEnemies = [
-        new Enemy(2, 1, 3),
-        new Enemy(3, 3, 2),
-        new Enemy(4, 4, 1),
-        new Enemy(4, 5, 1)
+        new Enemy(2, 4, 2.7),
+        new Enemy(2, 1, 3.5),
+        new Enemy(3, 3, 3),
+        new Enemy(3, 1, 2.1),
+        new Enemy(4, 4, 2),
+        new Enemy(4, 5, 1.8)
       ];
 
 // This listens for key presses and sends the keys to your
