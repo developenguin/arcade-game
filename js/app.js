@@ -1,3 +1,9 @@
+const CONSTANTS = {
+  dx: 101, // block width
+  dy: 83,  // block height
+  offset: 24  // distance from canvas top to the first row
+};
+
 /* Enemies the player must avoid */
 class Enemy {
 
@@ -12,9 +18,11 @@ class Enemy {
    */
   constructor(row, col, speed) {
     this.sprite = 'images/enemy-bug.png';
-    this.x = (col - 1) * 101; // 101 is the row width
-    this.y = (row - 1) * 83 - 24; // 83 is row height, 24 is one-time offset from canvas top
+    
+    this.x = (col - 1) * CONSTANTS.dx;
+    this.y = (row - 1) * CONSTANTS.dy - CONSTANTS.offset;
     this.speed = speed; // Movement in pixels per tick
+    
   }
 
   /* Update the position of the object on the screen, required for game
@@ -31,7 +39,7 @@ class Enemy {
   updateHorizontalPosition(dt) {
 
     this.x = this.isObjectOutOfRightBound()
-      ? -101
+      ? -CONSTANTS.dy
       : this.x + this.calculateSpeedPerTick(dt);
 
   }
@@ -43,7 +51,7 @@ class Enemy {
   calculateSpeedPerTick(dt) {
 
     const ticksPerSecond = 1 / dt,
-          blockWidth = 101;
+          blockWidth = CONSTANTS.dx;
 
     return blockWidth * this.speed / ticksPerSecond;
 
@@ -53,7 +61,7 @@ class Enemy {
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
-
+  
   isObjectOutOfRightBound() {
     return this.x > document.getElementsByTagName('canvas')[0].width;
   }
@@ -63,8 +71,8 @@ class Player {
 
   constructor(row, col) {
     this.sprite = 'images/char-boy.png';
-    this.x = (col - 1) * 101; // 101 is the row width
-    this.y = (row - 1) * 83 - 24; // 83 is row height, 24 is one-time offset from canvas top
+    this.x = (col - 1) * CONSTANTS.dx;
+    this.y = (row - 1) * CONSTANTS.dy - CONSTANTS.offset;
   }
 
   /* Update the position of the player */
