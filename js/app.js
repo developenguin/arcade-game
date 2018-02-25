@@ -34,7 +34,7 @@ class Enemy {
    */
   update(dt) {
     this.updateHorizontalPosition(dt);
-    
+
     if (this.isCollisionWithPlayer()) {
       scoreBoard.decreaseScore();
       player.resetPosition();
