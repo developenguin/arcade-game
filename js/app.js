@@ -135,9 +135,9 @@ class Player {
   handleHorizontalInput(direction) {
 
     if (direction === 'left') {
-      this.x = this.x - 101;
+      this.x = this.x - CONSTANTS.dx;
     } else {
-      this.x = this.x + 101;
+      this.x = this.x + CONSTANTS.dx;
     }
 
   }
@@ -149,9 +149,9 @@ class Player {
   handleVerticalInput(direction) {
 
     if (direction === 'up') {
-      this.y = this.y - 83;
+      this.y = this.y - CONSTANTS.dy;
     } else {
-      this.y = this.y + 83;
+      this.y = this.y + CONSTANTS.dy;
     }
 
   }
