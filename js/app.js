@@ -1,12 +1,4 @@
-const CONSTANTS = {
-  dx: 101, // block width
-  dy: 83, // block height
-  offset: 24, // distance from canvas top to the first row,
-  playerCollisionOffset: 24, // horizontal distance from edge of player sprite to first colored pixel
-
-  canvasWidth: 505,
-  canvasHeight: 606
-};
+import CONSTANTS from './constants';
 
 /* Enemies the player must avoid */
 class Enemy {
@@ -37,7 +29,7 @@ class Enemy {
 
     if (this.isCollisionWithPlayer()) {
       gameState.decreaseScore();
-      gameState.changeAllEnemySpeed(gameState.score / 20);
+      gameState.changeAllEnemySpeed(gameState.score / CONSTANTS.difficultyModifier);
       player.resetPosition();
     }
   }
@@ -66,7 +58,7 @@ class Enemy {
     return blockWidth * this.speed / ticksPerSecond;
 
   }
-  
+
   /*
    * Increase the speed
    * Param: modifier, the amount with which to increase the speed
@@ -77,7 +69,7 @@ class Enemy {
 
   /*
    * Draw the enemy on the screen
-   * */
+   */
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
@@ -153,13 +145,12 @@ class GameState {
    */
   changeAllEnemySpeed(modifier) {
 
-    for (let enemy of allEnemies) {
+    for (const enemy of allEnemies) {
       enemy.increaseSpeed(modifier);
     }
-    
+
   }
-  
-  
+
 }
 
 class Player {
@@ -186,7 +177,7 @@ class Player {
 
     if (this.isOnFirstRow()) {
       gameState.increaseScore();
-      gameState.changeAllEnemySpeed(gameState.score / 20);
+      gameState.changeAllEnemySpeed(gameState.score / CONSTANTS.difficultyModifier);
       this.resetPosition();
     }
 
