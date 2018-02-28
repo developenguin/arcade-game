@@ -26,9 +26,9 @@ const Engine = (function(global) {
 
   canvas.width = 505;
   canvas.height = 606;
-  
-  ctx.font = "24px Arial";
-  
+
+  ctx.font = '24px Arial';
+
   doc.body.appendChild(canvas);
 
   /* This function serves as the kickoff point for the game loop itself
@@ -97,6 +97,7 @@ const Engine = (function(global) {
       enemy.update(dt);
     });
     player.update();
+    princess.update();
   }
 
   /* This function initially draws the "game level", it will then call
@@ -146,19 +147,21 @@ const Engine = (function(global) {
 
   /* This function is called by the render function and is called on each game
      * tick. Its purpose is to then call the render functions you have defined
-     * on your enemy and player entities within app.js
+     * on your enemy, player and other entities within app.js
      */
   function renderEntities() {
+
+    princess.render();
     /* Loop through all of the objects within the allEnemies array and call
-         * the render function you have defined.
-         */
+     * the render function you have defined.
+     */
     allEnemies.forEach(function(enemy) {
       enemy.render();
     });
 
     player.render();
     gameState.render();
-    
+
   }
 
   /* This function does nothing but it could have been a good place to
@@ -178,7 +181,8 @@ const Engine = (function(global) {
     'images/water-block.png',
     'images/grass-block.png',
     'images/enemy-bug.png',
-    'images/char-boy.png'
+    'images/char-boy.png',
+    'images/char-princess-girl.png'
   ]);
   Resources.onReady(init);
 

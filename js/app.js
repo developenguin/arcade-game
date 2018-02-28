@@ -312,6 +312,42 @@ class Player {
   }
 }
 
+/* A collectible for the player to pick up */
+class Princess {
+
+  /* Initialize the object and its position on the board */
+  constructor() {
+    this.sprite = 'images/char-princess-girl.png';
+    this.x = null;
+    this.y = null;
+
+    this.assignRandomPosition();
+  }
+
+  /* Check for collisions and act accordingly */
+  update() {
+
+    if (GameState.isObjectCollidingWithPlayer(this)) {
+      gameState.increaseScore();
+      this.assignRandomPosition();
+    }
+
+  }
+
+  /* Draw the princess on screen */
+  render() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.fillRect(this.x, this.y, CONSTANTS.dx, CONSTANTS.dy);
+  }
+
+  /* Move the princess to a random row and column on the board */
+  assignRandomPosition() {
+    this.x = Math.round(4 * Math.random()) * CONSTANTS.dx;
+    this.y = Math.round(5 * Math.random()) * CONSTANTS.dy - CONSTANTS.offset;
+  }
+
+}
+
 /* Instantiate objects to use in the game */
 const player = new Player(6, 3),
       gameState = new GameState(),
@@ -322,7 +358,8 @@ const player = new Player(6, 3),
         new Enemy(3, 1, 2.1),
         new Enemy(4, 4, 2),
         new Enemy(4, 5, 1.8)
-      ];
+      ],
+      princess = new Princess();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
