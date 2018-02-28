@@ -188,12 +188,15 @@ class Player {
 
   /*
    * Check for collision or win conditions and act accordingly
+   * If the player has won (scored a point), enemies will move faster and the princess will
+   * re-appear somewhere on the board.
    */
   update() {
 
     if (this.isOnFirstRow()) {
       gameState.increaseScore();
       gameState.changeAllEnemySpeed(gameState.score / CONSTANTS.difficultyModifier);
+      princess.assignRandomPosition();
       this.resetPosition();
     }
 
@@ -262,7 +265,7 @@ class Player {
   }
 
   /*
-   *
+   * Reset the player position to the starting point
    */
   resetPosition() {
     this.x = this.initialX;
@@ -329,7 +332,7 @@ class Princess {
 
     if (GameState.isObjectCollidingWithPlayer(this)) {
       gameState.increaseScore();
-      this.assignRandomPosition();
+      this.moveOffTheBoard();
     }
 
   }
@@ -344,6 +347,12 @@ class Princess {
   assignRandomPosition() {
     this.x = Math.round(4 * Math.random()) * CONSTANTS.dx;
     this.y = Math.round(5 * Math.random()) * CONSTANTS.dy - CONSTANTS.offset;
+  }
+  
+  /* Move the princess off the board */
+  moveOffTheBoard() {
+    this.x = 1600;
+    this.y = 1600;
   }
 
 }

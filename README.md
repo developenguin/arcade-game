@@ -11,6 +11,9 @@ You control the player with either the arrow keys or WASD. The aim is to cross t
 avoid the bugs and get to the water. If you win, you score a point and you can try again.
 If you hit a bug, you lose a point and you have to start over.
 
+You can earn extra points by rescuing the princess. She will appear randomly on the board and give you a point as thanks.
+Sadly, she can't stay safe for long: when you win she will appear on a random spot again.
+
 The game gets a little harder if you score a lot of points, and easier if you lose often.
 This is done by changing the speed at which the enemies move.
 
