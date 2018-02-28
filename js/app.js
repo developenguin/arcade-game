@@ -13,6 +13,7 @@ const CONSTANTS = {
   canvasWidth: 505,
   canvasHeight: 606
 };
+
 /* Enemies the player must avoid */
 class Enemy {
 
@@ -94,40 +95,10 @@ class Enemy {
     return this.x > CONSTANTS.canvasWidth;
   }
 
-  /*
-   * Checks if the player and the enemy sprite currently overlap at some point
-   */
-  isCollisionWithPlayer() {
-
-    const ownBox = {
-            x1: this.x,
-            x2: this.x + CONSTANTS.dx,
-            y1: this.y,
-            y2: this.y + CONSTANTS.dy
-          },
-          playerBox = player.getCollisionBox();
-
-    /*
-     * To check for collisions, we do the following:
-     * - A collision can only happen on the same row, so the y1 coordinates must be the same
-     * - If they are, we need to check if the x1 position of the player is between the x1 and x2
-     *    coordinates of the enemy OR the x2 position is (left and right collision)
-     */
-
-    if (playerBox.y1 !== ownBox.y1 ) {
-      return false;
-    }
-
-    return (
-      (playerBox.x1 + CONSTANTS.playerCollisionOffset > ownBox.x1
-        && playerBox.x1 + CONSTANTS.playerCollisionOffset < ownBox.x2)
-      || (playerBox.x2 - CONSTANTS.playerCollisionOffset > ownBox.x1
-        && playerBox.x2 - CONSTANTS.playerCollisionOffset < ownBox.x2)
-    );
-
-  }
+  
 }
 
+/* Class containing helper methods for the game state, as well as keeping track of the scoreboard */
 class GameState {
 
   /*
@@ -162,6 +133,39 @@ class GameState {
       enemy.increaseSpeed(modifier);
     }
 
+  }
+  
+  /*
+   * Checks if the player and the enemy sprite currently overlap at some point
+   */
+  isCollisionWithPlayer(collidingObject) {
+    
+    const ownBox = {
+        x1: collidingObject.x,
+        x2: collidingObject.x + CONSTANTS.dx,
+        y1: collidingObject.y,
+        y2: collidingObject.y + CONSTANTS.dy
+      },
+      playerBox = player.getCollisionBox();
+    
+    /*
+     * To check for collisions, we do the following:
+     * - A collision can only happen on the same row, so the y1 coordinates must be the same
+     * - If they are, we need to check if the x1 position of the player is between the x1 and x2
+     *    coordinates of the enemy OR the x2 position is (left and right collision)
+     */
+    
+    if (playerBox.y1 !== ownBox.y1 ) {
+      return false;
+    }
+    
+    return (
+      (playerBox.x1 + CONSTANTS.playerCollisionOffset > ownBox.x1
+        && playerBox.x1 + CONSTANTS.playerCollisionOffset < ownBox.x2)
+      || (playerBox.x2 - CONSTANTS.playerCollisionOffset > ownBox.x1
+        && playerBox.x2 - CONSTANTS.playerCollisionOffset < ownBox.x2)
+    );
+    
   }
 
 }
