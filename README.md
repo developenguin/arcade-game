@@ -21,4 +21,5 @@ This is done by changing the speed at which the enemies move.
 This game was built as part of the Udacity Frontend Developer Nanodegree and is 
 built on [Udacity/frontend-nanodegree-arcade-game](https://github.com/udacity/frontend-nanodegree-arcade-game), which provided the html and js skeleton files as well as the image resources.
 
-This game has no dependencies
+This game has no dependencies.
+This game has ESLint as a dev dependency.
