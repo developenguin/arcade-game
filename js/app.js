@@ -348,7 +348,7 @@ class Princess {
     this.x = Math.round(4 * Math.random()) * CONSTANTS.dx;
     this.y = Math.round(5 * Math.random()) * CONSTANTS.dy - CONSTANTS.offset;
   }
-  
+
   /* Move the princess off the board */
   moveOffTheBoard() {
     this.x = 1600;
