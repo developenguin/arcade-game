@@ -41,7 +41,7 @@ class Enemy {
   update(dt) {
     this.updateHorizontalPosition(dt);
 
-    if (this.isCollisionWithPlayer()) {
+    if (GameState.isObjectCollidingWithPlayer(this)) {
       gameState.decreaseScore();
       gameState.changeAllEnemySpeed(gameState.score / CONSTANTS.difficultyModifier);
       player.resetPosition();
@@ -95,7 +95,6 @@ class Enemy {
     return this.x > CONSTANTS.canvasWidth;
   }
 
-  
 }
 
 /* Class containing helper methods for the game state, as well as keeping track of the scoreboard */
@@ -134,38 +133,38 @@ class GameState {
     }
 
   }
-  
+
   /*
-   * Checks if the player and the enemy sprite currently overlap at some point
+   * Checks if the player and another object currently overlap at some point
    */
-  isCollisionWithPlayer(collidingObject) {
-    
+  static isObjectCollidingWithPlayer(collidingObject) {
+
     const ownBox = {
-        x1: collidingObject.x,
-        x2: collidingObject.x + CONSTANTS.dx,
-        y1: collidingObject.y,
-        y2: collidingObject.y + CONSTANTS.dy
-      },
-      playerBox = player.getCollisionBox();
-    
+            x1: collidingObject.x,
+            x2: collidingObject.x + CONSTANTS.dx,
+            y1: collidingObject.y,
+            y2: collidingObject.y + CONSTANTS.dy
+          },
+          playerBox = player.getCollisionBox();
+
     /*
      * To check for collisions, we do the following:
      * - A collision can only happen on the same row, so the y1 coordinates must be the same
      * - If they are, we need to check if the x1 position of the player is between the x1 and x2
      *    coordinates of the enemy OR the x2 position is (left and right collision)
      */
-    
+
     if (playerBox.y1 !== ownBox.y1 ) {
       return false;
     }
-    
+
     return (
       (playerBox.x1 + CONSTANTS.playerCollisionOffset > ownBox.x1
         && playerBox.x1 + CONSTANTS.playerCollisionOffset < ownBox.x2)
       || (playerBox.x2 - CONSTANTS.playerCollisionOffset > ownBox.x1
         && playerBox.x2 - CONSTANTS.playerCollisionOffset < ownBox.x2)
     );
-    
+
   }
 
 }
