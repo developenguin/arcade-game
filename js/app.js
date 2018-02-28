@@ -340,7 +340,6 @@ class Princess {
   /* Draw the princess on screen */
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    ctx.fillRect(this.x, this.y, CONSTANTS.dx, CONSTANTS.dy);
   }
 
   /* Move the princess to a random row and column on the board */
